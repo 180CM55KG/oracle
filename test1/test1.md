@@ -86,7 +86,7 @@ GROUP BY d.department_name;
 
    ### 查询语句设计
 
-   查询shipping部门的员工编号以及对应的工作编号（已创建索引）。
+   查询shipping部门的员工编号以及对应的工作编号（已创建索引）
 
    ```sql
 set autotrace on
