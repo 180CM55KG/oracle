@@ -26,7 +26,7 @@ END MyPack;
 /
 ```
 
-![运行test5 .sql](.\test5\运行test5 .sql.png)
+![运行test5 .sql](.\test5\4.png)
 
 2.在MyPack中创建一个函数SaleAmount ，查询部门表，统计每个部门的销售总金额，每个部门的销售额是由该部门的员工(ORDERS.EMPLOYEE_ID)完成的销售额之和。函数SaleAmount要求输入的参数是部门号，输出部门的销售金额。
 
@@ -61,9 +61,9 @@ END MyPack;
 /
 ```
 
-![函数Get_SaleAmount()测试方法](.\test5\函数Get_SaleAmount()测试方法.png)
+![函数Get_SaleAmount()测试方法](.\test5\2.png)
 
-![函数Get_SaleAmount()测试方法2](.\test5\函数Get_SaleAmount()测试方法2.png)
+![函数Get_SaleAmount()测试方法2](.\test5\3.png)
 
 ![第二个](.\test5\第二个.png)
 
