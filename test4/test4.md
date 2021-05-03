@@ -764,7 +764,7 @@ NOCOMPRESS;
 select * from orders where order_id=1300;
 ```
 
-![开始测试](..\img\0.png)
+![开始测试](img/0.png)
 
 ​	2.递归查询某个员工及其所有下属，子下属员工。
 
@@ -773,7 +773,7 @@ select level,employee_id,name,manager_id from employees
 START WITH employee_id = 1 CONNECT BY PRIOR employee_id = manager_id
 ```
 
-![查询员工](..\img\1.png)
+![查询员工](img/1.png)
 
 ​	3.查询订单表，并且包括订单的订单应收货款
 
