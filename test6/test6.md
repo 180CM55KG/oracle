@@ -4,7 +4,7 @@
 
 ## 二. 需求与功能分析 
 
-服装类商品的订单管理系统，可用于餐厅等机构的订单信息管理，查询，更新与维护，使用方便，易用性强。该系统实现的大致功能；用户登陆。提供了信息的查询，添加，修改，删除；查询部门销售额，修改密码等功能。管理员管理拥有最高的权限。其提供了简单.方便的操作。该系统的目标是建立一个订单管理平台，为需要合理规划超市供应链、供应商以及工作人员提供的便捷的平台。该系统的主要业务需求包括记录并维护某超市的供应商信息，以及该超市与供应商之间的交易订单信息，包括三种角色，系统管理员经理，普通员工
+服装类商品管理系统，可用于餐厅等机构的订单信息管理，查询，更新与维护，使用方便，易用性强。该系统实现的大致功能；用户登陆。提供了信息的查询，添加，修改，删除；查询部门销售额，修改密码等功能。管理员管理拥有最高的权限。其提供了简单.方便的操作。订单管理系统是一个专为连锁店、超市等商业场所提供订单管理平台的系统。该系统的目标是建立一个订单管理平台，为需要合理规划超市供应链、供应商以及工作人员提供的便捷的平台。该系统的主要业务需求包括记录并维护某超市的供应商信息，以及该超市与供应商之间的交易订单信息，包括三种角色，系统管理员经理，普通员工。
 
 ## 三. 数据库设计
 
@@ -28,7 +28,7 @@ oracle中的表就是一张存储数据的表。表空间是逻辑上的划分�
 
 ![img](img/clip_image003.png)
 
-建好tablespace, 就可以建用户
+建好tablespace, 就可以建用户CY：
 
 ![img](img/clip_image004.png)
 
@@ -129,6 +129,7 @@ CREATE TABLE ORDER_DETAILS (
 );
 CREATE UNIQUE INDEX ORDER_DETAILS_PK ON ORDER_DETAILS ( ID ASC ) NOLOGGING TABLESPACE USERS PCTFREE 10 INITRANS 2 STORAGE ( INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS UNLIMITED BUFFER_POOL DEFAULT ) NOPARALLEL;
 ALTER TABLE ORDER_DETAILS ADD CONSTRAINT ORDER_DETAILS_PK PRIMARY KEY ( ID ) USING INDEX ORDER_DETAILS_PK ENABLE;
+
 ```
 
  
@@ -173,6 +174,16 @@ ALTER TABLE ORDER_DETAILS ADD CONSTRAINT ORDER_DETAILS_PK PRIMARY KEY ( ID ) USI
 | 编号                         | ORDER_ID                                 | 订单编号                     |
 | 产品名称  产品数量  产品价格 | PRODUCT_NAME  PRODUCT_NUM  PRODUCT_PRICE | 产品名称  产品数量  产品价格 |
 
+## 创建结果：
+
+![img](img/clip_image008.png)
+
+![img](img/clip_image009.png)
+
+![img](img/clip_image010.png)
+
+![img](img/clip_image011.png)
+
 ## 6. 创建视图
 
 •     视图(view)，也称虚表, 不占用物理空间，这个也是相对概念，因为视图本身的定义语句还是要存储在数据字典里的。视图只有逻辑定义。每次使用的时候,只是重新执行SQL。
@@ -185,10 +196,6 @@ ALTER TABLE ORDER_DETAILS ADD CONSTRAINT ORDER_DETAILS_PK PRIMARY KEY ( ID ) USI
 
 •     还有一种视图：物化视图（MATERIALIZED VIEW ），也称实体化视图，快照 （8i 以前的说法） ，它是含有数据的，占用存储空间。
 
-•      
-
- 
-
 ```
 CREATE OR REPLACE FORCE EDITIONABLE VIEW "VIEW_ORDER_DETAILS" ("ID", "ORDER_ID",  "ORDER_DATE", "PRODUCT_TYPE", "PRODUCT_NAME", "PRODUCT_NUM", "PRODUCT_PRICE") AS
   SELECT
@@ -200,9 +207,12 @@ CREATE OR REPLACE FORCE EDITIONABLE VIEW "VIEW_ORDER_DETAILS" ("ID", "ORDER_ID",
   d.PRODUCT_NUM,
   d.PRODUCT_PRICE
 FROM ORDERS o,ORDER_DETAILS d,PRODUCTS p where d.ORDER_ID=o.ORDER_ID and d.PRODUCT_NAME=p.PRODUCT_NAME; 
+
 ```
 
- 
+结果展示：
+
+![img](img/clip_image012.png)
 
 ## 8. 向数据库中写入数据共计50000多个数据
 
@@ -262,9 +272,20 @@ begin
   
   --dbms_stats.gather_schema_stats(User,estimate_percent=>100,cascade=> TRUE); 
 end;
+
 ```
 
+![img](img/clip_image009.png)
 
+产品表
+
+![img](img/clip_image011.png)
+
+订单详细表
+
+![img](img/clip_image010.png)
+
+订单表
 
 ## 9. PL/SQL设计
 
@@ -293,12 +314,8 @@ begin
 exception when others then
           dbms_output.put_line(SQLERRM);
 end;
-```
 
-如下调用：
-begin    show_line(50,'=');end;/
-在SQLPLUS里面调用：
-SQL> BEGIN2        show_line(50,'=');3    END;
+```
 
 ### 9.2. 创建函数
 
@@ -314,6 +331,10 @@ BEGIN
     END;
 END; 
 ```
+
+## 测试查询结果：
+
+![img](img/clip_image013.png)
 
 ## 10. 数据库备份
 
@@ -387,25 +408,26 @@ SQL plus 已SYSTEM 用户登录
 
 创建expdir目录并给用户授权读写
 
-![img](img/clip_image008.png)
+![img](img/clip_image014.png)
 
 用户自己备份
 
-![img](img/clip_image009.png)
+![img](img/clip_image015.png)
 
 前往本地目录查看：
 
-![img](img/clip_image010.png)
+![img](img/clip_image016.png)
 
 ### 10.5. 删除数据库文件模拟数据损坏
 
-![img](img/clip_image011.png)
+![img](img/clip_image017.png)
 
 ### 10.6. 数据库完全恢复
 
-![img](img/clip_image012.png)
+![img](img/clip_image018.png)
 
 用户登录数据库查看恢复情况;
 
-![img](img/clip_image013.png)
+![img](img/clip_image019.png)
 
+数据完全恢复。
